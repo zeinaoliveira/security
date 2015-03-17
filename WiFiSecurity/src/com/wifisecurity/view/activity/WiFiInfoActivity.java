@@ -9,6 +9,7 @@ import com.wifisecurity.model.bo.WiFiInfoBO;
 import com.wifisecurity.presenter.WiFiRouterAdapter;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.wifi.WifiManager;
@@ -21,9 +22,11 @@ import android.view.View;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+//@ContentView(R.layout.activity_main)
 public class WiFiInfoActivity extends ActionBarActivity {
 
 	TextView txtEmptyList;
@@ -34,29 +37,12 @@ public class WiFiInfoActivity extends ActionBarActivity {
 	WifiManager wifiManager;
 	WiFiInfoBO wifiInfoBO;
 	WiFiRouterAdapter adapter;
-	AlertDialog dialog;
+	AlertDialog informationDialog;
+	ProgressDialog progressBar;
 	
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-    	super.onCreate(savedInstanceState);
-    	setContentView(R.layout.activity_main);
-
-    	initialize();
-    	createListRouters();
-//    	refresh();
-    	
-    	lstWifiRouter.setOnItemClickListener(new  OnItemClickListener() {
-    	
-    		@Override
-    		public void onItemClick(AdapterView<?> parent, 
-    				View view, int position, long id) {
-    			
-    			InfoWiFi infoWifi = (InfoWiFi) parent.getAdapter().getItem(position);
-    			setWiFiInformationDialog(infoWifi);
-    		}
-		});
-    }
-
+	/**
+     * Initialize objects.
+     */
     private void initialize() {
     	
     	txtEmptyList = (TextView) findViewById(R.id.txtEmptyList);
@@ -67,21 +53,48 @@ public class WiFiInfoActivity extends ActionBarActivity {
     	wifiInfoBO = new WiFiInfoBO();
     	wifiList = new ArrayList<InfoWiFi>();
     	
-    	dialog = new AlertDialog.Builder(this).create();
+    	informationDialog = new AlertDialog.Builder(this).create();
     }
-  
-    public void setWiFiInformationDialog(InfoWiFi infoWifi) {
-    	if (infoWifi.getSsid().isEmpty())
-    		dialog.setTitle(R.string.hiddenSSID);
-    	else 
-    		dialog.setTitle(infoWifi.getSsid());
+    
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+    	super.onCreate(savedInstanceState);
+    	setContentView(R.layout.activity_main);
+
+    	initialize();
+    	createListRouters();
     	
-		dialog.setMessage("Frequência: " + infoWifi.getFrequency() + "\n\n" +
-				"- Capacidades: " + infoWifi.getCapabilities() + "\n\n" +
-				"- Timestamp: " + infoWifi.getTimestamp() + "\n\n" +
-				"- Nivel de segurança: " + infoWifi.getSecurityofRouter() + "%");
-		
-		dialog.show();
+    	lstWifiRouter.setOnItemClickListener(new  OnItemClickListener() {
+    	
+    		@Override
+    		public void onItemClick(AdapterView<?> parent, 
+    				View view, int position, long id) {
+    			InfoWiFi infoWifi = (InfoWiFi) parent.getAdapter().getItem(position);
+    			setWiFiInformationDialog(infoWifi);
+    		}
+		});
+    }
+    
+    /**
+     * Show informations about network in a dialog.
+     */
+    public void setWiFiInformationDialog(InfoWiFi infoWifi) {
+    	String title;
+    	
+    	informationDialog.setTitle(R.string.network_information);
+    
+    	if (infoWifi.getSsid().isEmpty())
+    		title = "*" + getString(R.string.ssid)+ ": " + getString (R.string.hiddenSSID) + "\n\n";
+    	else 
+      		title = "*" + getString(R.string.ssid)+ ": " + infoWifi.getSsid() + "\n\n";
+    	
+    	title += 	"*" + getString(R.string.frequency) + ": " + infoWifi.getFrequency() + " MHz\n\n" +
+    				"*" + getString(R.string.capabilities) + ": "  + infoWifi.getCapabilities() + "\n\n" +
+    				"*" + getString(R.string.timestamp) + ": "+ infoWifi.getTimestamp() + " ms\n\n" + //to do - colocar o tempo em min ou hs p melhorar o entendimento
+    				"*" + getString(R.string.security_level) + ": " + infoWifi.getSecurityofRouter() + "%\n";
+
+    	informationDialog.setMessage(title);
+		informationDialog.show();
     }
     
     @Override
@@ -106,19 +119,40 @@ public class WiFiInfoActivity extends ActionBarActivity {
         }
     }
     
-    
+    /**
+     * Show about screen.
+     */
     public void showAbout() {
 		Intent intent = new Intent (WiFiInfoActivity.this, AboutActivity.class);
 		startActivity(intent);
     }
     
-    
     public void refresh() {
-    	adapter.notifyDataSetChanged();
     	
-    	Toast.makeText(this, R.string.refresh_list, Toast.LENGTH_SHORT).show();
+    	
+    	progressBar = ProgressDialog.show(this, getString(R.string.refresh), getString(R.string.refreshing), false,false);
+    	
+    	new Thread(new Runnable() {  
+            @Override
+            public void run() {
+                  try
+                  {
+                        Thread.sleep(3000);
+                  } catch(Exception e){}
+	                  progressBar.dismiss();
+            }
+      }).start();
+    	refreshList();
+    	txtEmptyList.setText("");
+    	
     }
     
+    
+    public void refreshList() {
+    	wifiList.clear();
+    	createListRouters();
+    	Toast.makeText(WiFiInfoActivity.this, R.string.refresh_list, Toast.LENGTH_SHORT).show();
+    }
     
     public void createListRouters() {
     	
@@ -139,4 +173,5 @@ public class WiFiInfoActivity extends ActionBarActivity {
     	} else
     		txtEmptyList.setText(R.string.emptyList);
     }
+    
 }

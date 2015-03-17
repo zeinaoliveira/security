@@ -9,10 +9,11 @@ import com.wifisecurity.model.WiFiConstant;
 public class WiFiInfoBO {
 
 	static final int PARAM_SIZE = 6;
-	static final int FREQUENCY_2400 = 2400;
+	static final int FREQUENCY_2400_MIN = 2400;
+    static final int FREQUENCY_2400_MAX = 2499;
 	static final int FREQUENCY_5200 = 5200;
-	static final int HS_24 = 86400000;
-	static final int HS_72 = 259200000;
+	static long HS_24 = 86400000000L;
+	static long HS_72 = 259200000000L;
 	private List<String> default_router;
 	private float insurancePerc;
 	
@@ -22,13 +23,20 @@ public class WiFiInfoBO {
 		default_router = new ArrayList<String>();
 		default_router.add("LINKSYS");
 		default_router.add("OI WIFI FON");
+        default_router.add("OI WIFI");
+        default_router.add("OI_VELOX_WIFI_E2FA");
 		default_router.add("D-LINK");
 		default_router.add("DLINK");
 		default_router.add("NETGEAR");
 		default_router.add("TP-LINK");
 		default_router.add("CISCO-LINK");
 		default_router.add("INTELBRAS");
-		
+        default_router.add("ASUS");
+        default_router.add("SMC");
+        default_router.add("DELL");
+        default_router.add("TRENDNET");
+        default_router.add("3COM");
+
 		return default_router;
 	}
 	
@@ -36,35 +44,35 @@ public class WiFiInfoBO {
 		if (getDefaultRouters().contains(wifiInfo.getSsid().toUpperCase())){
 			return WiFiConstant.LOW;
 		} else
-			if (wifiInfo.getSsid().isEmpty() || wifiInfo.getSsid() == null){ //TODO: Capturar a rede que esteja oculta
+			if (wifiInfo.getSsid().isEmpty() || wifiInfo.getSsid() == null){
 				return WiFiConstant.HIGH;
 			} else 
 				return WiFiConstant.MEDIUM;
 	}
 	
 	public int getFrequency(InfoWiFi wifiInfo) {
-		if (wifiInfo.getFrequency() > FREQUENCY_2400){
-			return WiFiConstant.HIGH;	
-		} else 
+		if (wifiInfo.getFrequency() < FREQUENCY_2400_MAX ){
 			return WiFiConstant.MEDIUM;
+		} else
+			return WiFiConstant.HIGH;
 	}
 	
 	public int getEncryption(InfoWiFi wifiInfo) {
-		if (wifiInfo.getCapabilities().contains("WPA2"))
-			return WiFiConstant.HIGH;
+		if (wifiInfo.getCapabilities().contains("WPA"))
+			return WiFiConstant.MEDIUM;
 		else
-			if (wifiInfo.getCapabilities().contains("WPA"))
-				return WiFiConstant.MEDIUM;
-			else // TODO: VALIDAR SEM CRIPTOGRAFIA NO ROUTER
+			if (wifiInfo.getCapabilities().contains("WPA2"))
+				return WiFiConstant.HIGH;
+			else
 				return WiFiConstant.LOW;
 	}
 	
 	public int getWPAAlgorithm(InfoWiFi wifiInfo) {
-		if (wifiInfo.getCapabilities().contains("AES") || wifiInfo.getCapabilities().contains("CCMP") || wifiInfo.getCapabilities().contains("AES-CCMP")) 
-			return WiFiConstant.HIGH;
-		else
-			if (wifiInfo.getCapabilities().contains("TKIP"))
-				return WiFiConstant.LOW;
+		if (wifiInfo.getCapabilities().contains("TKIP"))
+			return WiFiConstant.LOW;
+		else 
+			if (wifiInfo.getCapabilities().contains("AES") || wifiInfo.getCapabilities().contains("CCMP") || wifiInfo.getCapabilities().contains("AES-CCMP")) 
+				return WiFiConstant.HIGH;
 			else
 				return WiFiConstant.LOW;
 	}
@@ -72,8 +80,7 @@ public class WiFiInfoBO {
 	public int getWPSAvailabe(InfoWiFi wifiInfo) {
 		if (wifiInfo.getCapabilities().contains("WPS"))
 			return WiFiConstant.LOW;
-		else
-			return WiFiConstant.HIGH;
+		else return WiFiConstant.HIGH;
 	}
 	
 	public int getTimestamp(InfoWiFi wifiInfo) {
