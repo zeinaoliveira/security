@@ -1,0 +1,35 @@
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <!--
+        Base application theme, dependent on API level. This theme is replaced
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+    -->
+    
+	<style name="AppBaseTheme" parent="@style/Theme.AppCompat.Light.DarkActionBar">
+	    <item name="android:actionBarStyle" tools:targetApi="11">@style/actionbar_color</item>
+	 
+	    <!-- Support library compatibility -->
+	    <item name="actionBarStyle">@style/actionbar_color</item>
+	</style>
+    
+    <!-- Application theme. -->
+    <style name="AppTheme" parent="AppBaseTheme">
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    </style>
+    
+    <style name="actionbar_color" parent="@android:style/Widget.Holo.Light.ActionBar">
+        <item name="android:background">@color/blue_high</item>
+        <item name="android:titleTextStyle">@style/title_actionbar_color</item>
+        <item name="android:icon">@android:color/transparent</item>
+        <item name="android:splitMotionEvents">false</item>
+    </style>
+
+    <style name="title_actionbar_color" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">19dp</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+	
+</resources>
