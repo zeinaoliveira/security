@@ -39,13 +39,15 @@ public class WiFiRouterAdapter extends ArrayAdapter<InfoWiFi>{
 
 		    @Override
 		    public int compare(final InfoWiFi lhs, final InfoWiFi rhs) {
-			int result = 0;
-			if (lhs.getSecurityofRouter()< rhs.getSecurityofRouter()) {
-			    result = 1;
-			} else if (lhs.getSecurityofRouter()> rhs.getSecurityofRouter()) {
-			    result = -1;
-			}
-			return result;
+			
+			    int result = 0;
+				
+				if (lhs.getSecurityofRouter()< rhs.getSecurityofRouter()) {
+				    result = 1;
+				} else if (lhs.getSecurityofRouter()> rhs.getSecurityofRouter()) {
+				    result = -1;
+				}
+				return result;
 		    }
 		});
 	}
@@ -87,14 +89,14 @@ public class WiFiRouterAdapter extends ArrayAdapter<InfoWiFi>{
 		holder.txtViewSecurity = (TextView) convertView.findViewById(R.id.txtSecurityofRouter);
 		holder.txtViewSecurity.setText(data.get(position).getSecurityofRouter()+ "%");
 		
-		holder.image = (ImageView) convertView.findViewById(R.id.app_icon);
+//		holder.image = (ImageView) convertView.findViewById(R.id.app_icon);
 		
 		if (data.get(position).getSecurityofRouter() > 70) {
 			holder.txtViewSecurity.setBackgroundResource(R.drawable.shape_green);
-			holder.image.setBackgroundResource(R.drawable.ok);
+//			holder.image.setBackgroundResource(R.drawable.ok);
 		} else {
 			holder.txtViewSecurity.setBackgroundResource(R.drawable.shape_red);
-			holder.image.setBackgroundResource(R.drawable.nok);
+//			holder.image.setBackgroundResource(R.drawable.nok);
 		}
 
 		return convertView;
@@ -103,7 +105,7 @@ public class WiFiRouterAdapter extends ArrayAdapter<InfoWiFi>{
 	static class ViewHolder {
 		TextView txtViewSSID;
 		TextView txtViewSecurity;
-		ImageView image;
+//		ImageView image;
 	}
 	
 }

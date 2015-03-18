@@ -4,13 +4,6 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:padding="10dp" >
-
-    <ImageView
-        android:id="@+id/app_icon"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-          android:layout_alignParentLeft="true"
-        android:background="@drawable/nok"     />
     
     <TextView
         android:id="@+id/txtSSID"
@@ -20,8 +13,8 @@
         android:layout_margin="10dp"
         android:layout_toRightOf="@id/app_icon"
         android:textStyle="italic|bold"
-       	android:text="txtsasaSSID"
        	android:ellipsize="marquee"
+       	android:text="txtsasaSSID"
         android:textSize="16dp" />
     
     <TextView

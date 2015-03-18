@@ -5,7 +5,7 @@
     
     <!-- Menu option -->
     <string name="refresh">Atualizar</string>
-    <string name="refreshing">Atualizando ...</string>
+    <string name="refreshing">Atualizando</string>
     <string name="about">Sobre</string>
     
     <string name="action_settings">Configurações</string>

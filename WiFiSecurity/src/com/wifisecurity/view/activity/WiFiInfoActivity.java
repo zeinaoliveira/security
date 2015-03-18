@@ -90,7 +90,7 @@ public class WiFiInfoActivity extends ActionBarActivity {
     	
     	title += 	"*" + getString(R.string.frequency) + ": " + infoWifi.getFrequency() + " MHz\n\n" +
     				"*" + getString(R.string.capabilities) + ": "  + infoWifi.getCapabilities() + "\n\n" +
-    				"*" + getString(R.string.timestamp) + ": "+ infoWifi.getTimestamp() + " ms\n\n" + //to do - colocar o tempo em min ou hs p melhorar o entendimento
+    				//"*" + getString(R.string.timestamp) + ": "+ infoWifi.getTimestamp() + " ms\n\n" + //to do - colocar o tempo em min ou hs p melhorar o entendimento
     				"*" + getString(R.string.security_level) + ": " + infoWifi.getSecurityofRouter() + "%\n";
 
     	informationDialog.setMessage(title);
@@ -163,7 +163,7 @@ public class WiFiInfoActivity extends ActionBarActivity {
 	    		wifiInfo.setCapabilities(wifiManager.getScanResults().get(i).capabilities);
 	    		wifiInfo.setSsid(wifiManager.getScanResults().get(i).SSID);
 	    		wifiInfo.setFrequency(wifiManager.getScanResults().get(i).frequency);
-	    		wifiInfo.setTimestamp(wifiManager.getScanResults().get(i).timestamp);
+//	    		wifiInfo.setTimestamp(wifiManager.getScanResults().get(i).timestamp);
 	    		wifiInfo.setSecurityofRouter(wifiInfoBO.getSecurityofRouter(wifiInfo));
 	    		wifiList.add(wifiInfo);
 	
