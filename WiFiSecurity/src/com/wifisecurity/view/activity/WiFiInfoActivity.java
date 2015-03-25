@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.example.wifisecurity.R;
+import com.wifisecurity.bo.WiFiInfoBO;
 import com.wifisecurity.model.InfoWiFi;
-import com.wifisecurity.model.bo.WiFiInfoBO;
-import com.wifisecurity.presenter.WiFiRouterAdapter;
+import com.wifisecurity.view.WiFiRouterAdapter;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -22,11 +22,9 @@ import android.view.View;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-//@ContentView(R.layout.activity_main)
 public class WiFiInfoActivity extends ActionBarActivity {
 
 	TextView txtEmptyList;
@@ -84,14 +82,13 @@ public class WiFiInfoActivity extends ActionBarActivity {
     	informationDialog.setTitle(R.string.network_information);
     
     	if (infoWifi.getSsid().isEmpty())
-    		title = "*" + getString(R.string.ssid)+ ": " + getString (R.string.hiddenSSID) + "\n\n";
+    		title = "• " + getString(R.string.ssid)+ ": " + getString (R.string.hiddenSSID) + "\n\n";
     	else 
-      		title = "*" + getString(R.string.ssid)+ ": " + infoWifi.getSsid() + "\n\n";
+      		title = "• " + getString(R.string.ssid)+ ": " + infoWifi.getSsid() + "\n\n";
     	
-    	title += 	"*" + getString(R.string.frequency) + ": " + infoWifi.getFrequency() + " MHz\n\n" +
-    				"*" + getString(R.string.capabilities) + ": "  + infoWifi.getCapabilities() + "\n\n" +
-    				//"*" + getString(R.string.timestamp) + ": "+ infoWifi.getTimestamp() + " ms\n\n" + //to do - colocar o tempo em min ou hs p melhorar o entendimento
-    				"*" + getString(R.string.security_level) + ": " + infoWifi.getSecurityofRouter() + "%\n";
+    	title += 	"• " + getString(R.string.frequency) + ": " + infoWifi.getFrequency() + " MHz\n\n" +
+    				"• " + getString(R.string.capabilities) + ": "  + infoWifi.getCapabilities() + "\n\n" +
+    				"• " + getString(R.string.security_level) + ": " + infoWifi.getSecurityofRouter() + "%\n";
 
     	informationDialog.setMessage(title);
 		informationDialog.show();

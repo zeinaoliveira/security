@@ -1,4 +1,4 @@
-package com.wifisecurity.model.bo;
+package com.wifisecurity.bo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,11 +12,9 @@ public class WiFiInfoBO {
 	static final int FREQUENCY_2400_MIN = 2400;
     static final int FREQUENCY_2400_MAX = 2499;
 	static final int FREQUENCY_5200 = 5200;
-//	static long HS_24 = 86400000000L;
-//	static long HS_72 = 259200000000L;
 	private List<String> default_router;
 	private float insurancePerc;
-	
+
 	InfoWiFi wifiInfo;
 	
 	public List<String> getDefaultRouters() {
@@ -59,15 +57,15 @@ public class WiFiInfoBO {
 	
 	public int getEncryption(InfoWiFi wifiInfo) {
 		
-	//TODO identificar a qtd de itens que vem em capability para testar se é wpa ou wpa2 
-		
 		int internalDecision = WiFiConstant.LOW;
 		
-		if (wifiInfo.getCapabilities().contains("WPA2"))
-			internalDecision = WiFiConstant.HIGH;
-		else
-			if (wifiInfo.getCapabilities().contains("WPA"))
+		if (wifiInfo.getCapabilities().contains("WPA")) {
+			internalDecision = WiFiConstant.MEDIUM;
+			if (wifiInfo.getCapabilities().contains("WPA2"))
 				internalDecision = WiFiConstant.MEDIUM;
+		} else
+			if (wifiInfo.getCapabilities().contains("WPA2"))
+				internalDecision = WiFiConstant.HIGH;
 			else
 				internalDecision = WiFiConstant.LOW;
 		
@@ -90,18 +88,7 @@ public class WiFiInfoBO {
 		else return WiFiConstant.HIGH;
 	}
 	
-//	public int getTimestamp(InfoWiFi wifiInfo) {
-//		if (wifiInfo.getTimestamp() < HS_24)
-//			return WiFiConstant.HIGH;
-//		else
-//			if (wifiInfo.getTimestamp() > HS_24 && wifiInfo.getTimestamp() < HS_72)
-//				return WiFiConstant.MEDIUM;
-//			else
-//				return WiFiConstant.LOW;
-//	}
-	
 	public float getSecurityofRouter(InfoWiFi wifiInfo) {
-//		insurancePerc = (getssid(wifiInfo) + getWPAAlgorithm (wifiInfo) + getFrequency(wifiInfo) + getWPSAvailabe(wifiInfo) +getEncryption(wifiInfo) + getTimestamp(wifiInfo))/PARAM_SIZE;
 		insurancePerc = (getssid(wifiInfo) + getWPAAlgorithm (wifiInfo) + getFrequency(wifiInfo) + getWPSAvailabe(wifiInfo) +getEncryption(wifiInfo))/PARAM_SIZE;
 		return  insurancePerc;
 	}

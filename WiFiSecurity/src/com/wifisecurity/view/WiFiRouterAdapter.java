@@ -1,4 +1,4 @@
-package com.wifisecurity.presenter;
+package com.wifisecurity.view;
 
 
 import java.util.Collections;
@@ -10,10 +10,10 @@ import com.wifisecurity.model.InfoWiFi;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -72,8 +72,7 @@ public class WiFiRouterAdapter extends ArrayAdapter<InfoWiFi>{
 		
 		LayoutInflater inflater = ((Activity)context).getLayoutInflater();
 		
-		ViewHolder holder;
-		holder = new ViewHolder();
+		ViewHolder holder = new ViewHolder();
 		
 		if (convertView == null)
 			convertView = inflater.inflate(R.layout.wi_fi_list_item, parent, false);
@@ -89,14 +88,14 @@ public class WiFiRouterAdapter extends ArrayAdapter<InfoWiFi>{
 		holder.txtViewSecurity = (TextView) convertView.findViewById(R.id.txtSecurityofRouter);
 		holder.txtViewSecurity.setText(data.get(position).getSecurityofRouter()+ "%");
 		
-//		holder.image = (ImageView) convertView.findViewById(R.id.app_icon);
+		holder.image = (ImageView) convertView.findViewById(R.id.app_icon);
 		
 		if (data.get(position).getSecurityofRouter() > 70) {
-			holder.txtViewSecurity.setBackgroundResource(R.drawable.shape_green);
-//			holder.image.setBackgroundResource(R.drawable.ok);
+			holder.txtViewSecurity.setTextColor(Color.GREEN);
+			holder.image.setBackgroundResource(R.drawable.lock_green);
 		} else {
-			holder.txtViewSecurity.setBackgroundResource(R.drawable.shape_red);
-//			holder.image.setBackgroundResource(R.drawable.nok);
+			holder.txtViewSecurity.setTextColor(Color.RED);
+			holder.image.setBackgroundResource(R.drawable.lock_red);
 		}
 
 		return convertView;
@@ -105,7 +104,7 @@ public class WiFiRouterAdapter extends ArrayAdapter<InfoWiFi>{
 	static class ViewHolder {
 		TextView txtViewSSID;
 		TextView txtViewSecurity;
-//		ImageView image;
+		ImageView image;
 	}
 	
 }
